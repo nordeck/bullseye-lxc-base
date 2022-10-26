@@ -119,17 +119,19 @@ apt-get $APT_PROXY_OPTION -y install git
 if [[ "$DONT_CLONE_GIT_REPO" != true ]]; then
     rm -rf $BASE_TMP_DIR
     git clone --depth=1 -b $BASE_BRANCH $BASE_REPO $BASE_TMP_DIR
+    rm -rf $BASE_TMP_DIR/{.git,.gitignore}
 
     rm -rf $APP_TMP_DIR
-    [[ -n "$APP_REPO" ]] && \
+    if [[ -n "$APP_REPO" ]]; then
         git clone --depth=1 -b $APP_BRANCH $APP_REPO $APP_TMP_DIR
+        rm -rf $APP_TMP_DIR/{.git,.gitignore}
+    fi
 fi
 
 # ------------------------------------------------------------------------------
 # MERGE THE BASE FOLDER WITH THE APPLICATION FOLDER
 # ------------------------------------------------------------------------------
 if [[ "$BASE_INSTALLER" != "$APP_INSTALLER" ]]; then
-    rm -rf $BASE_TMP_DIR/{.git,.gitignore}
     rsync -av $APP_TMP_DIR/ $BASE_TMP_DIR/
     rm -rf $APP_TMP_DIR
 fi
