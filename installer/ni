@@ -26,6 +26,9 @@ export APP_REPO=
 export APP_BRANCH="main"
 export APP_TMP_DIR="/tmp/nordeck"
 
+export LOCAL_TEMPLATES=/root/nordeck-local-templates
+export USE_LOCAL_TEMPLATES=false
+
 export BRIDGE="nordeck"
 export SHARED="/usr/local/nordeck"
 
@@ -45,13 +48,13 @@ export FREE_SPACE=$((df | grep "/var/lib/lxc$"
 # ------------------------------------------------------------------------------
 # CUSTOMIZATION
 # ------------------------------------------------------------------------------
-# Please set the related environment variables in CONFIG files to prevent to
-# run some scripts or to prevent to check some criteria during the installation
+# Please set the related environment variables in CONFIG file to customize the
+# installation process.
 #
 # Examples:
+#    export USE_LOCAL_TEMPLATES=true
 #    export DONT_CLONE_GIT_REPO=true
 #    export DONT_RUN_HOST=true
-#    export DONT_RUN_BULLSEYE=true
 #    export BRIDGE="br0"
 # ------------------------------------------------------------------------------
 [[ -e "$BASEDIR/$APP_CONFIG" ]] && source "$BASEDIR/$APP_CONFIG"
