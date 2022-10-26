@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ------------------------------------------------------------------------------
-# NORDECK INSTALLER
+# NI - NORDECK INSTALLER
 # ------------------------------------------------------------------------------
 # The first argument is the template name and we need it.
 if [[ -z "$1" ]]; then
@@ -154,9 +154,8 @@ fi
 # RUNNING THE SUB INSTALLATION SCRIPTS
 # ------------------------------------------------------------------------------
 export TMP=$APP_TMP_DIR
-export ROOTDIR=$BASEDIR/$TMP
-export INSTALLER=$ROOTDIR/installer-sub-scripts/$APP_INSTALLER
-export MACHINES=$ROOTDIR/machines
+export INSTALLER=$APP_TMP_DIR/installer-sub-scripts/$APP_INSTALLER
+export MACHINES=$APP_TMP_DIR/machines
 export MACHINE_HOST=$MACHINES/nordeck-host
 export MACHINE_BULLSEYE=$MACHINES/nordeck-bullseye
 export MACHINE_COMMON=$MACHINES/common
