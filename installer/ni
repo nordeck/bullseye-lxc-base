@@ -18,13 +18,13 @@ export BASE_INSTALLER=nordeck-base
 export BASE_CONFIG="${BASE_INSTALLER}.conf"
 export BASE_REPO="https://github.com/nordeck/bullseye-lxc-base.git"
 export BASE_BRANCH="main"
-export BASE_TMP_DIR="/tmp/nordeck-base-tmp"
+export BASE_TMP_DIR="/tmp/nordeck-base"
 
-export APP_INSTALLER="$(echo $1 | cut -d. -f1)"
+export APP_INSTALLER="$(echo $1 | sed 's/\.conf$//')"
 export APP_CONFIG="${APP_INSTALLER}.conf"
 export APP_REPO=
 export APP_BRANCH="main"
-export APP_TMP_DIR="/tmp/nordeck-tmp"
+export APP_TMP_DIR="/tmp/nordeck"
 
 export BRIDGE="nordeck"
 export SHARED="/usr/local/nordeck"
