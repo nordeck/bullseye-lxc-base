@@ -29,7 +29,7 @@ echo "export ARCH=$ARCH" >> $SOURCE
 RAM=$(free -m | grep Mem: | awk '{ print $2 }')
 echo "export RAM=$RAM" >> $SOURCE
 
-# Is the host an LXC container?
+# Is the host in an LXC container?
 [[ "$(stat -c '%i' /)" -gt 1000 ]] && \
     echo "export IS_IN_LXC=true" >> $SOURCE
 
