@@ -125,7 +125,7 @@ if [[ "$DONT_CLONE_GIT_REPO" != true ]]; then
     if [[ -n "$APP_REPO" ]]; then
         git clone --depth=1 -b $APP_BRANCH $APP_REPO $APP_TMP_DIR \
             --config core.sshCommand="ssh \
-                -i deploy.key \
+                -i /root/.ssh/deploy.key \
                 -o StrictHostKeyChecking=no \
                 -o UserKnownHostsFile=/dev/null"
         rm -rf $APP_TMP_DIR/{.git,.gitignore}
