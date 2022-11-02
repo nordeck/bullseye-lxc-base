@@ -12,7 +12,7 @@
 #    export DONT_RUN_HOST=true
 #    export BRIDGE="br0"
 # ------------------------------------------------------------------------------
-[[ -e "$BASEDIR/$APP_CONFIG" ]] && source "$BASEDIR/$APP_CONFIG"
+export BASEDIR=$(pwd)
 
 # The first argument is the template name and we need it.
 if [[ -z "$1" ]]; then
@@ -24,6 +24,8 @@ fi
 
 export APP_INSTALLER="$(echo $1 | sed 's/\.conf$//')"
 export APP_CONFIG="${APP_INSTALLER}.conf"
+
+[[ -e "$BASEDIR/$APP_CONFIG" ]] && source "$BASEDIR/$APP_CONFIG"
 
 [[ -z "$FREE_SPACE_NEEDED" ]] && export FREE_SPACE_NEEDED="1000000"
 [[ -z "$RELEASE" ]] && export RELEASE="bullseye"
@@ -51,7 +53,6 @@ export APP_CONFIG="${APP_INSTALLER}.conf"
 # ------------------------------------------------------------------------------
 export START_TIME=$(date +%s)
 export DATE=$(date +"%Y%m%d%H%M%S")
-export BASEDIR=$(pwd)
 export SWAP=$(grep SwapTotal /proc/meminfo | awk '{ print $2; }')
 export FREE_SPACE=$((df | grep "/var/lib/lxc$"
     df | grep "/var/lib$"
