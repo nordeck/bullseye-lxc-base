@@ -3,6 +3,17 @@
 # ------------------------------------------------------------------------------
 # NI - NORDECK INSTALLER
 # ------------------------------------------------------------------------------
+# Please set the related environment variables in CONFIG file or in the shell to
+# customize the installation process.
+#
+# Examples:
+#    export USE_LOCAL_TEMPLATES=true
+#    export DONT_CLONE_GIT_REPO=true
+#    export DONT_RUN_HOST=true
+#    export BRIDGE="br0"
+# ------------------------------------------------------------------------------
+[[ -e "$BASEDIR/$APP_CONFIG" ]] && source "$BASEDIR/$APP_CONFIG"
+
 # The first argument is the template name and we need it.
 if [[ -z "$1" ]]; then
     echo "ERROR: missing argument. The template name is required"
@@ -11,26 +22,29 @@ if [[ -z "$1" ]]; then
     exit 1
 fi
 
-export FREE_SPACE_NEEDED="1000000"
-export RELEASE="bullseye"
-
-export BASE_INSTALLER=nordeck-base
-export BASE_CONFIG="${BASE_INSTALLER}.conf"
-export BASE_REPO="https://github.com/nordeck/bullseye-lxc-base.git"
-export BASE_BRANCH="main"
-export BASE_TMP_DIR="/tmp/nordeck-base"
-
 export APP_INSTALLER="$(echo $1 | sed 's/\.conf$//')"
 export APP_CONFIG="${APP_INSTALLER}.conf"
-export APP_REPO=
-export APP_BRANCH="main"
-export APP_TMP_DIR="/tmp/nordeck"
 
-export LOCAL_TEMPLATES=/root/nordeck-local-templates
-export USE_LOCAL_TEMPLATES=false
+[[ -z "$FREE_SPACE_NEEDED" ]] && export FREE_SPACE_NEEDED="1000000"
+[[ -z "$RELEASE" ]] && export RELEASE="bullseye"
 
-export BRIDGE="nordeck"
-export SHARED="/usr/local/nordeck"
+[[ -z "$BASE_INSTALLER" ]] && export BASE_INSTALLER=nordeck-base
+[[ -z "$BASE_CONFIG" ]] && export BASE_CONFIG="${BASE_INSTALLER}.conf"
+[[ -z "$BASE_REPO" ]] && \
+    export BASE_REPO="https://github.com/nordeck/bullseye-lxc-base.git"
+[[ -z "$BASE_BRANCH" ]] && export BASE_BRANCH="main"
+[[ -z "$BASE_TMP_DIR" ]] && export BASE_TMP_DIR="/tmp/nordeck-base"
+
+[[ -z "$APP_REPO" ]] && export APP_REPO=
+[[ -z "$APP_BRANCH" ]] && export APP_BRANCH="main"
+[[ -z "$APP_TMP_DIR" ]] && export APP_TMP_DIR="/tmp/nordeck"
+
+[[ -z "$USE_LOCAL_TEMPLATES" ]] && export USE_LOCAL_TEMPLATES=false
+[[ -z "$LOCAL_TEMPLATES" ]] && \
+    export LOCAL_TEMPLATES=/root/nordeck-local-templates
+
+[[ -z "$BRIDGE" ]] && export BRIDGE="nordeck"
+[[ -z "$SHARED" ]] && export SHARED="/usr/local/nordeck"
 
 # ------------------------------------------------------------------------------
 # STATUS
@@ -44,20 +58,6 @@ export FREE_SPACE=$((df | grep "/var/lib/lxc$"
     df | grep "/var$"
     df | egrep "/$") | \
     head -n1 | awk '{ print $4; }')
-
-# ------------------------------------------------------------------------------
-# CUSTOMIZATION
-# ------------------------------------------------------------------------------
-# Please set the related environment variables in CONFIG file to customize the
-# installation process.
-#
-# Examples:
-#    export USE_LOCAL_TEMPLATES=true
-#    export DONT_CLONE_GIT_REPO=true
-#    export DONT_RUN_HOST=true
-#    export BRIDGE="br0"
-# ------------------------------------------------------------------------------
-[[ -e "$BASEDIR/$APP_CONFIG" ]] && source "$BASEDIR/$APP_CONFIG"
 
 # ------------------------------------------------------------------------------
 # CHECKING THE HOST (which will host the LXC containers)
