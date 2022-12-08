@@ -9,7 +9,7 @@ source $INSTALLER/000-source
 # ------------------------------------------------------------------------------
 # ENVIRONMENT
 # ------------------------------------------------------------------------------
-MACH="nordeck-host"
+MACH="$TAG-host"
 cd $MACHINES/$MACH
 
 # ------------------------------------------------------------------------------
@@ -32,16 +32,16 @@ apt-get $APT_PROXY -y install openssl
 # CA CERTIFICATE & KEY
 # ------------------------------------------------------------------------------
 # the CA key and the CA certificate
-if [[ ! -d "/root/nordeck-certs" ]]; then
-    mkdir /root/nordeck-certs
-    chmod 700 /root/nordeck-certs
+if [[ ! -d "/root/$TAG-certs" ]]; then
+    mkdir /root/$TAG-certs
+    chmod 700 /root/$TAG-certs
 fi
 
-if [[ ! -f "/root/nordeck-certs/nordeck-CA.pem" ]]; then
-    cd /root/nordeck-certs
-    rm -f nordeck-CA.key
+if [[ ! -f "/root/$TAG-certs/$TAG-CA.pem" ]]; then
+    cd /root/$TAG-certs
+    rm -f $TAG-CA.key
 
     openssl req -nodes -new -x509 -days 10950 \
-        -keyout nordeck-CA.key -out nordeck-CA.pem \
-        -subj "/O=nordeck/OU=CA/CN=nordeck-bullseye $DATE-$RANDOM"
+        -keyout $TAG-CA.key -out $TAG-CA.pem \
+        -subj "/O=$TAG/OU=CA/CN=$TAG-bullseye $DATE-$RANDOM"
 fi
