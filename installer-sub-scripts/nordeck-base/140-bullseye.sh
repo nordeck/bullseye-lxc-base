@@ -7,7 +7,7 @@ source $INSTALLER/000-source
 # ------------------------------------------------------------------------------
 # ENVIRONMENT
 # ------------------------------------------------------------------------------
-MACH="nordeck-bullseye"
+MACH="$TAG-bullseye"
 cd $MACHINES/$MACH
 
 ROOTFS="/var/lib/lxc/$MACH/rootfs"
@@ -56,8 +56,7 @@ lxc-create -n $MACH -t download -P /var/lib/lxc/ -- \
 
 # shared directories
 mkdir -p $SHARED/cache
-cp -arp $MACHINE_HOST/usr/local/nordeck/cache/bullseye-apt-archives \
-    $SHARED/cache/
+cp -arp $MACHINE_HOST/usr/local/$TAG/cache/bullseye-apt-archives $SHARED/cache/
 
 # container config
 rm -rf $ROOTFS/var/cache/apt/archives
@@ -93,7 +92,7 @@ sleep 1
 # ------------------------------------------------------------------------------
 # ca-certificates for https repo
 apt-get $APT_PROXY \
-    -o dir::cache::archives="/usr/local/nordeck/cache/bullseye-apt-archives/" \
+    -o dir::cache::archives="/usr/local/$TAG/cache/bullseye-apt-archives/" \
     -dy reinstall iputils-ping ca-certificates openssl
 
 lxc-attach -n $MACH -- bash <<EOS
@@ -147,7 +146,7 @@ ln -s /usr/share/zoneinfo/$TIMEZONE /etc/localtime
 EOS
 
 # ssh
-cp etc/ssh/sshd_config.d/nordeck.conf $ROOTFS/etc/ssh/sshd_config.d/
+cp etc/ssh/sshd_config.d/$TAG.conf $ROOTFS/etc/ssh/sshd_config.d/
 
 # ------------------------------------------------------------------------------
 # ROOT USER
