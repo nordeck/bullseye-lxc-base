@@ -38,12 +38,13 @@ export APP_CONFIG="${APP_TEMPLATE}.conf"
 [[ -z "$APP_TMP_DIR" ]] && export APP_TMP_DIR="/tmp/$TAG"
 
 [[ -z "$USE_LOCAL_TEMPLATES" ]] && export USE_LOCAL_TEMPLATES=false
-[[ -z "$LOCAL_TEMPLATES" ]] && export LOCAL_TEMPLATES=/root/$TAG-local-templates
+[[ -z "$LOCAL_TEMPLATES" ]] && \
+    export LOCAL_TEMPLATES="/root/$TAG-local-templates"
 
 [[ -z "$BRIDGE" ]] && export BRIDGE="$TAG"
 [[ -z "$SHARED" ]] && export SHARED="/usr/local/$TAG"
 [[ -z "$RELEASE" ]] && export RELEASE="bullseye"
-[[ -z "$FREE_SPACE_NEEDED" ]] && export FREE_SPACE_NEEDED="1000000"
+[[ -z "$FREE_SPACE_NEEDED" ]] && export FREE_SPACE_NEEDED=1000000
 
 # ------------------------------------------------------------------------------
 # STATUS
@@ -157,12 +158,12 @@ fi
 # ------------------------------------------------------------------------------
 # RUNNING THE SUB INSTALLATION SCRIPTS
 # ------------------------------------------------------------------------------
-export TMP=$APP_TMP_DIR
-export INSTALLER=$APP_TMP_DIR/installer-sub-scripts/$APP_TEMPLATE
-export MACHINES=$APP_TMP_DIR/machines
-export MACHINE_HOST=$MACHINES/$TAG-host
-export MACHINE_BULLSEYE=$MACHINES/$TAG-bullseye
-export MACHINE_COMMON=$MACHINES/common
+export TMP="$APP_TMP_DIR"
+export INSTALLER="$APP_TMP_DIR/installer-sub-scripts/$APP_TEMPLATE"
+export MACHINES="$APP_TMP_DIR/machines"
+export MACHINE_HOST="$MACHINES/$TAG-host"
+export MACHINE_BULLSEYE="$MACHINES/$TAG-bullseye"
+export MACHINE_COMMON="$MACHINES/common"
 
 cd $INSTALLER
 [[ -f "init.sh" ]] && bash init.sh
